@@ -10,4 +10,4 @@ git remote add origin https://github.com/shaijukumar/wayooz.git
 git branch -M maincls
 git push -u origin main 
 
-1
+1 2 2
