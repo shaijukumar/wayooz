@@ -9,6 +9,7 @@ namespace Application._SitePage
     {
 		public Guid Id { get; set; }
 		public string Title { get; set; }
+		public string CatId { get; set; }
 		//public ICollection<PageTagSitePageDto> PageTag { get; set; }
 		public string Tags { get; set; }
 		public PageTag TagId { get; set; }

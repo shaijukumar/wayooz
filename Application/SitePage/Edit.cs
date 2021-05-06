@@ -10,6 +10,7 @@ using MediatR;
 using Persistence;
 using Domain;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application._SitePage
 {
@@ -20,6 +21,7 @@ namespace Application._SitePage
             
 		public Guid Id { get; set; }
 		public string Title { get; set; }
+        public string CatId { get; set; }
 		//public virtual ICollection<PageTagSitePage> PageTag { get; set; }
         public string Tags { get; set; }
 		public string URLTitle { get; set; }
@@ -65,21 +67,23 @@ namespace Application._SitePage
 
 				sitePage.Title  = request.Title ?? sitePage.Title;
 				//sitePage.PageTag  = request.PageTag ?? sitePage.PageTag;
+                 sitePage.CatId = request.CatId;
                 sitePage.Tags = request.Tags ?? sitePage.Tags;
 				sitePage.URLTitle  = request.URLTitle ?? sitePage.URLTitle;
 				sitePage.PageHtml  = request.PageHtml ?? sitePage.PageHtml;
 				
-				
-				// _context.Entry(cl).State = EntityState.Modified;  //.Entry(user).State = EntityState.Added; /
-				var success = await _context.SaveChangesAsync() > 0;                   
-				//if (success) return Unit.Value;
-				if (success)
-				{
-					var toReturn = _mapper.Map<SitePage, SitePageDto>(sitePage);
-					return toReturn;
-				}
+				try{
+                    var success = await _context.SaveChangesAsync() >= 0;                
+                    if (success)
+                    {
+                        var toReturn = _mapper.Map<SitePage, SitePageDto>(sitePage);
+                        return toReturn;
+                    }
 
-
+                }catch(Exception ex){
+                     throw new Exception(ex.Message);
+                }
+						
                 throw new Exception("Problem saving changes");
             }
         }

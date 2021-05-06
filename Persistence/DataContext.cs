@@ -17,6 +17,7 @@ namespace Persistence
         public DbSet<ToDo> Todos { get; set; }
         public DbSet<PageTag> PageTags { get; set; }
 		public DbSet<SitePage> SitePages { get; set; }
+		public DbSet<PageCategory> PageCategorys { get; set; }
 		//##ModelDbSet##
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -41,5 +42,6 @@ namespace Persistence
         }
     }
 }
+
 
 

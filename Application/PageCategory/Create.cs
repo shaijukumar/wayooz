@@ -7,21 +7,21 @@ using AutoMapper;
 using Persistence;
 using Application.Interfaces;
 using Domain;
-using System.Collections.Generic;
 
-namespace Application._SitePage
+
+namespace Application._PageCategory
 {
     public class Create
     {
-        public class Command : IRequest<SitePageDto>
+        public class Command : IRequest<PageCategoryDto>
         {
 
-            public string Title { get; set; }
-            public string CatId { get; set; }
-            //public virtual ICollection<PageTagSitePage> PageTag { get; set; }
-            public string Tags { get; set; }
-            public string URLTitle { get; set; }
-            public string PageHtml { get; set; }
+		public string Title { get; set; }
+		public Guid Pid { get; set; }
+		public string Prop1 { get; set; }
+		public string Prop2 { get; set; }
+		public string Prop3 { get; set; }
+		public string Prop4 { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -29,13 +29,11 @@ namespace Application._SitePage
             public CommandValidator()
             {
                 RuleFor(x => x.Title).NotEmpty();
-				RuleFor(x => x.URLTitle).NotEmpty();
-				RuleFor(x => x.PageHtml).NotEmpty();
 				
             }
         }
 
-        public class Handler : IRequestHandler<Command, SitePageDto>
+        public class Handler : IRequestHandler<Command, PageCategoryDto>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -48,24 +46,24 @@ namespace Application._SitePage
 
             }
 
-            public async Task<SitePageDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<PageCategoryDto> Handle(Command request, CancellationToken cancellationToken)
             {                                                   
-                var sitePage = new SitePage
+                var pageCategory = new PageCategory
                 {
 					Title  = request.Title,
-                    CatId = request.CatId,
-					//PageTag  = request.PageTag,
-                    Tags = request.Tags,
-					URLTitle  = request.URLTitle,
-					PageHtml  = request.PageHtml                  
+					Pid  = request.Pid,
+					Prop1  = request.Prop1,
+					Prop2  = request.Prop2,
+					Prop3  = request.Prop3,
+					Prop4  = request.Prop4                  
                 };
 
-                _context.SitePages.Add(sitePage);
+                _context.PageCategorys.Add(pageCategory);
                 var success = await _context.SaveChangesAsync() > 0;
 
                 if (success)
                 {
-                    var toReturn = _mapper.Map <SitePage, SitePageDto>(sitePage);
+                    var toReturn = _mapper.Map <PageCategory, PageCategoryDto>(pageCategory);
                     return toReturn;
                 }                
 
